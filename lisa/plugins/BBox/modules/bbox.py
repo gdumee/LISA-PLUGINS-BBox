@@ -4,6 +4,7 @@ from pysnmp.carrier.asynsock.dgram import udp
 from pyasn1.codec.ber import encoder, decoder
 from pysnmp.proto import api
 from time import time, sleep
+from lisa.Neotique.NeoTrans import NeoTrans
 
 from lisa.server.plugins.IPlugin import IPlugin
 import gettext
@@ -74,10 +75,10 @@ class BBox(IPlugin):
         self.configuration_plugin = self.mongo.lisa.plugins.find_one({"name": "ChatterBot"})
         self.path = os.path.realpath(os.path.abspath(os.path.join(os.path.split(
             inspect.getfile(inspect.currentframe()))[0],os.path.normpath("../lang/"))))
-        self._ = translation = gettext.translation(domain='bbox',
+        self._ = NeoTrans(domain='bbox',
                                                    localedir=self.path,
                                                    fallback=True,
-                                                   languages=[self.configuration_lisa['lang']]).ugettext
+                                                   languages=[self.configuration_lisa['lang']]).Trans
         self.configuration_plugin = self.mongo.lisa.plugins.find_one({"name": "BBox"})
         self.snmp = SNMP()
         self.answer = ""
